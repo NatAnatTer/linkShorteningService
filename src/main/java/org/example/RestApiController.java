@@ -4,11 +4,13 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
 @EnableAutoConfiguration
-@RequestMapping("/changelink")
+@RequestMapping
 public class RestApiController {
     private final UrlRepository urlRepository;
     CutService cutService;
@@ -19,31 +21,45 @@ public class RestApiController {
     }
 
 
-    @GetMapping
+    @GetMapping("/changelink")
     Iterable<Links> getLinks() {
         return urlRepository.findAll();
     }
 
-    @GetMapping("/{id}")
+
+    @GetMapping("/abc")
+    String linkOrigin(String newLink) {
+        Iterable<Links> listOfUrl = urlRepository.findAll();
+        String originUrl = newLink;
+        for (Links s: listOfUrl) {
+            if(Objects.equals(s.getNewUrl(), newLink)){
+                originUrl = s.getOriginalUrl();
+            }
+        }
+        return originUrl;
+    }
+
+
+    @GetMapping("/changelink/{id}")
     Optional<Links> getLinksById(@PathVariable String id) {
         return urlRepository.findById(id);
     }
 
-    @PostMapping
+    @PostMapping("/changelink")
     Links postLinks(@RequestBody OriginLink originLink) {
         String newUrl = cutService.cutUrl(originLink);
         Links links = new Links(originLink.originUrl,newUrl);
         return urlRepository.save(links);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/changelink/{id}")
     ResponseEntity<Links> putLinks(@PathVariable String id, @RequestBody Links links) {
         return (urlRepository.existsById(id))
                 ? new ResponseEntity<>(urlRepository.save(links), HttpStatus.OK)
                 : new ResponseEntity<>(urlRepository.save(links), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/changelink/{id}")
     void deleteLinks(@PathVariable String id) {
         urlRepository.deleteById(id);
     }

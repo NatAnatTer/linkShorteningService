@@ -2,7 +2,10 @@ package org.example;
 
 
 import org.springframework.stereotype.Service;
+import org.sqids.Sqids;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -28,6 +31,11 @@ public class CutService {
     }
 
     private String getUid() {
+
+        Sqids sqids=Sqids.builder().build();
+        String id=sqids.encode(Arrays.asList(1L,2L,3L)); // "86Rf07"
+        List<Long> numbers=sqids.decode(id);
+        /*
         int length = 4;
         Random r = new Random();
         String s = r.ints(48, 122)
@@ -36,7 +44,9 @@ public class CutService {
                 .limit(length)
                 .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
                 .toString();
-        return s;
+
+         */
+        return id;
     }
 
     private Boolean isExsistLink(String newUrl) {
