@@ -2,10 +2,6 @@ package org.example;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import org.hibernate.annotations.Filter;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.bind.Name;
-import org.springframework.context.annotation.ComponentScan;
 
 import java.util.UUID;
 

@@ -44,11 +44,17 @@ public class RestApiController {
     Optional<Links> getLinksById(@PathVariable String id) {
         return urlRepository.findById(id);
     }
-
+/*
     @PostMapping("/changelink")
     Links postLinks(@RequestBody OriginLink originLink) {
         String newUrl = cutService.cutUrl(originLink);
         Links links = new Links(originLink.originUrl,newUrl);
+        return urlRepository.save(links);
+    }*/
+    @PostMapping("/changelink")
+    Links postLinks(@RequestBody String originLink) {
+        String newUrl = cutService.cutUrl(originLink);
+        Links links = new Links(originLink,newUrl);
         return urlRepository.save(links);
     }
 
