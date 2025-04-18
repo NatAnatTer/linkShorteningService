@@ -1,6 +1,7 @@
 package org.example;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,8 +54,8 @@ public class RestApiController {
     }*/
     @PostMapping("/changelink")
     Links postLinks(@RequestBody String originLink) {
-        String newUrl = cutService.cutUrl(originLink);
-        Links links = new Links(originLink,newUrl);
+        Pair <String, String> s = cutService.cutUrl(originLink);
+        Links links = new Links(s.getSecond(), originLink,s.getFirst());
         return urlRepository.save(links);
     }
 

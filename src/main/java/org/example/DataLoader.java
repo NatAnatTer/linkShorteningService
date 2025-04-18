@@ -16,8 +16,8 @@ public class DataLoader {
     @PostConstruct
     private void LoadData() {
         urlRepository.saveAll(List.of(
-                new Links("https://peterhofmuseum.ru", "http://localhost:8080/peterh"),
-                new Links("https://peterhofmuseum.ru/objects/peterhof", "http://localhost:8080/History")
+                new Links("fr675", "https://peterhofmuseum.ru", "http://localhost:8080/peterh"),
+                new Links("frtdv", "https://peterhofmuseum.ru/objects/peterhof", "http://localhost:8080/History")
         ));
 
     }

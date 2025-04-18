@@ -2,15 +2,18 @@ package org.example;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 import org.sqids.Sqids;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CutService {
-@Autowired
+    @Autowired
     private final UrlRepository urlRepository;
 
     public static String DEFAULT_URL = "http://localhost:8080"; //TODO link to our service
@@ -20,17 +23,22 @@ public class CutService {
     }
 
 
-    public String cutUrl(String originLink) {
-      //  urlRepository.findById()
-        return DEFAULT_URL + "/" + getUid();
+    public Pair<String, String> cutUrl(String originLink) {
+        if(urlRepository.findByOriginUrl(originLink).isPresent()){
+            Links l = urlRepository.findByOriginUrl(originLink);
+            return Pair.of(l.getNewUrl(), l.getId());
+        }
+        String id = getUid();
+        return Pair.of(DEFAULT_URL + "/" + id, id);
     }
 
     private String getUid() {
-
-        Sqids sqids=Sqids.builder().build();
-        String id=sqids.encode(Arrays.asList(1L,2L,3L)); // "86Rf07"
-        List<Long> numbers=sqids.decode(id);
-
+        String id = "";
+        do {
+            Sqids sqids = Sqids.builder().build();
+            id = sqids.encode(Arrays.asList(1L, 2L, 3L)); // "86Rf07"
+            List<Long> numbers = sqids.decode(id);
+        } while (urlRepository.findById(id).isPresent());
         return id;
     }
 

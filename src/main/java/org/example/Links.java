@@ -13,8 +13,8 @@ public class Links {
     private String originalUrl;
     private String newUrl;
 
-    public Links( String originalUrl, String newUrl) {
-        this.id = UUID.randomUUID().toString();
+    public Links(String id, String originalUrl, String newUrl) {
+        this.id = id;
         this.originalUrl = originalUrl;
         this.newUrl = newUrl;
     }
