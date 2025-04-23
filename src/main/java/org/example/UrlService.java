@@ -22,20 +22,26 @@ public class UrlService {
         return urlRepository.findAll();
     }
 
-    public Optional<Links> findLinkById(String id) {
+    public Optional<Links> getLinkById(String id) {
         return urlRepository.findById(id);
     }
 
 
     public boolean checkLink(String checkedLink) {
-
         return urlRepository.checkByOriginalUrl(checkedLink);
-
+    }
+    public boolean checkNewLink(String checkedLink) {
+        return urlRepository.checkByNewUrl(checkedLink);
     }
 
     public String getShortLinkByOrigin(String originLink) {
         Optional<Links> l = urlRepository.findByOriginalUrl(originLink);
         return l.get().getNewUrl();
+    }
+
+    public String getOriginByNewLink(String newLink){
+        Optional<Links> l = urlRepository.findByNewUrl(newLink);
+        return l.get().getOriginalUrl();
     }
 
     public Boolean isPresentId(String id) {
