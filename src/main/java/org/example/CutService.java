@@ -14,22 +14,37 @@ import java.util.Optional;
 @Service
 public class CutService {
     @Autowired
-    private final UrlRepository urlRepository;
+    // private final UrlRepository urlRepository;
+    private final UrlService urlService;
 
     public static String DEFAULT_URL = "http://localhost:8080"; //TODO link to our service
 
-    public CutService(UrlRepository urlRepository) {
-        this.urlRepository = urlRepository;
+    public CutService(UrlService urlService) {
+        this.urlService = urlService;
     }
 
 
-    public Pair<String, String> cutUrl(String originLink) {
-        if(urlRepository.findByOriginUrl(originLink).isPresent()){
-            Links l = urlRepository.findByOriginUrl(originLink);
-            return Pair.of(l.getNewUrl(), l.getId());
+    public String cutUrlShorten(String originLink) {
+        if (urlService.checkLink(originLink)) {
+            return urlService.getShortLinkByOrigin(originLink);
+        } else {
+            String id = getUid();
+            String newUrl = DEFAULT_URL + "/" + id;
+            Links link = new Links(id, originLink, newUrl);
+            urlService.saveLInk(id, originLink, newUrl);
+            return newUrl;
         }
-        String id = getUid();
-        return Pair.of(DEFAULT_URL + "/" + id, id);
+    }
+    public String cutUrlExpanded(String originLink) {
+        if (urlService.checkLink(originLink)) {
+            return urlService.getShortLinkByOrigin(originLink);
+        } else {
+            String id = getUid();
+            String newUrl = DEFAULT_URL + "/" + id;
+            Links link = new Links(id, originLink, newUrl);
+            urlService.saveLInk(id, originLink, newUrl);
+            return newUrl;
+        }
     }
 
     private String getUid() {
@@ -38,8 +53,10 @@ public class CutService {
             Sqids sqids = Sqids.builder().build();
             id = sqids.encode(Arrays.asList(1L, 2L, 3L)); // "86Rf07"
             List<Long> numbers = sqids.decode(id);
-        } while (urlRepository.findById(id).isPresent());
+        } while (urlService.isPresentId(id));
         return id;
+
+
     }
 
     private Boolean isExsistLink(String newUrl) {

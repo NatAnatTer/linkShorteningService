@@ -8,6 +8,9 @@ import java.util.Optional;
 @Repository
 public interface UrlRepository extends CrudRepository<Links, String> {
 
-     Optional<Links> findByOriginUrl(String originUrl);
-     Optional<Links> findByShortUrl(String shortUrl);
+     Optional<Links> findByOriginalUrl(String originalUrl);
+   //  Optional<Links> findByNewUrl(String newUrl);
+     Boolean checkByOriginalUrl(String originalUrl);
+     Boolean checkIfExistId(String id);
+
 }
