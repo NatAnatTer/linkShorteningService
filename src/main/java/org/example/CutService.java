@@ -4,6 +4,8 @@ package org.example;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.sqids.Sqids;
+
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
@@ -35,11 +37,13 @@ public class CutService {
     }
 
     public String cutUrlExpanded(String newUrl) {
-        if (urlService.checkNewLink(newUrl)) {
-            return urlService.getOriginByNewLink(newUrl);
+        String newUrlPrepare = newUrl.replace("\"", "");
+        if (urlService.checkNewLink(newUrlPrepare)) {
+            return urlService.getOriginByNewLink(newUrlPrepare);
         } else {
             return "";
         }
+
     }
 
     public String getLinksByIdShorten(String id){
