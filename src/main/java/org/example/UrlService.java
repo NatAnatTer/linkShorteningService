@@ -28,10 +28,13 @@ public class UrlService {
 
 
     public boolean checkLink(String checkedLink) {
-        return urlRepository.checkByOriginalUrl(checkedLink);
+        Optional<Links> link = urlRepository.findByOriginalUrl(checkedLink);
+        return link.isPresent();
     }
     public boolean checkNewLink(String checkedLink) {
-        return urlRepository.checkByNewUrl(checkedLink);
+        Optional<Links> link = urlRepository.findByNewUrl(checkedLink);
+        return link.isPresent();
+
     }
 
     public String getShortLinkByOrigin(String originLink) {
@@ -45,7 +48,9 @@ public class UrlService {
     }
 
     public Boolean isPresentId(String id) {
-        return urlRepository.checkIfExistId(id);
+       Optional<Links> link = urlRepository.findById(id);
+        return link.isPresent();
+
     }
 
 }

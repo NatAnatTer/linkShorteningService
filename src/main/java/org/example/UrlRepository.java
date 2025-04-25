@@ -10,9 +10,9 @@ public interface UrlRepository extends CrudRepository<Links, String> {
 
      Optional<Links> findByOriginalUrl(String originalUrl);
      Optional<Links> findByNewUrl(String newUrl);
-     Boolean checkByOriginalUrl(String originalUrl);
-     Boolean checkIfExistId(String id);
 
-     Boolean checkByNewUrl(String newUrl);
+
+
+
 
 }

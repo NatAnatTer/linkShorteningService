@@ -3,8 +3,6 @@ package org.example;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
-import java.util.UUID;
-
 @Entity
 
 public class Links {
@@ -19,7 +17,8 @@ public class Links {
         this.newUrl = newUrl;
     }
 
-    public Links(){}
+    public Links() {
+    }
 
     public String getId() {
         return id;

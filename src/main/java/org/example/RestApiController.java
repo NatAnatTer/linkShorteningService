@@ -37,7 +37,7 @@ public class RestApiController {
         return cutService.cutUrlExpanded(newLink);
     }
 
-    @GetMapping("/expand/{id}")
+    @GetMapping("/{id}")
     Optional<String> getLinksByIdExpand(@PathVariable String id) {
         return Optional.ofNullable(cutService.getLinksByIdExpanded(id));
     }
